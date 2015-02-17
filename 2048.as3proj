@@ -56,6 +56,7 @@
     <element path="lib\AneOut.swc" />
     <element path="lib\LocalNotificationLib.ane" />
     <element path="Thread-1.0.swc" />
+    <element path="Tween24_2.0.1.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
