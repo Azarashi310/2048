@@ -89,6 +89,10 @@
 		//キーボードのイベント
 		private function keyupEventHandler(e:KeyboardEvent):void 
 		{
+			if (e.keyCode == 13)
+			{
+				createBlock();
+			}
 			keybuf[e.keyCode] = false;
 		}
 		
@@ -108,9 +112,38 @@
 			//配列の長さ
 			var block_num:int = blockArr.length;
 			
+			//配置済みであるかどうかの確認
+			var blockIsExist:Boolean = false;
+			
 			//乱数の生成
-			block_X = Math.random() * 3 << 0;
-			block_Y = Math.random() * 3 << 0;
+			block_X = Math.random() * 4 << 0;
+			block_Y = Math.random() * 4 << 0;
+			
+			trace(block_X);
+			trace(block_Y);
+			
+			//ブロックが存在するか確認する
+			if (blockArr.length != 0)
+			{
+				blockIsExist = getBlockPlace(block_X, block_Y);
+				trace(blockIsExist);
+			}
+			if (blockIsExist == true)
+			{
+				for (var i = 0; i < 10; i++ )
+				{
+					//乱数の生成
+					block_X = Math.random() * 3 << 0;
+					block_Y = Math.random() * 3 << 0;
+					
+					//ブロックが存在するか確認する
+					blockIsExist = getBlockPlace(block_X, block_Y);
+					if (blockIsExist == false)
+					{
+						break;
+					}
+				}
+			}
 			
 			//ブロックの生成
 			blockArr[block_num] = new Block();
@@ -132,23 +165,28 @@
 			setBlockPlace();
 			
 			addChild(blockArr[block_num]);
-			
-			trace("block_X :  = " + block_X);
-			trace("block_Y :  = " + block_Y);
+		}
+		
+		//ブロックの位置の設定
+		private function setBlockPlace():void
+		{
+			trace("blockArrの長さ :" + blockArr.length);
+			var test:int;
 			for (var i = 0; i < blockArr.length; i++ )
 			{
-				trace("block_x : = " + blockArr[i].x);
-				trace("block_y : = " + blockArr[i].y);
+				blockPlace[BlockPlaceTable.setTable[blockArr[i].y][blockArr[i].x]] = true;
 			}
 		}
 		
-		//ブロックの位置の取得
-		private function setBlockPlace():void
+		//ブロックの被りがあるかどうかを調べる
+		private function getBlockPlace(block_x:int, block_y:int):Boolean
 		{
-			for (var i = 0; i < blockArr.length; i++ )
+			if (blockPlace[BlockPlaceTable.getTable[block_y][block_x]] == true)
 			{
-				blockPlace[BlockPlaceTable.tabel[blockArr[i].y][blockArr[i].y]] = true;
+				trace("被ってる");
+				return true;
 			}
+			return false;
 		}
 	}
 	
