@@ -4,6 +4,7 @@
 	import elements.Block;
 	import flash.ui.Keyboard;
 	import flash.events.KeyboardEvent;
+	import table.BlockPlaceTable;
 	
 	public class Gamemain extends MovieClip {
 		
@@ -114,8 +115,10 @@
 			//ブロックの生成
 			blockArr[block_num] = new Block();
 			
+			//Xの位置の座標
 			blockArr[block_num].x = block1.margin + block1.margin * 2 * block_X + block1.width * block_X;
 			
+			//Yの位置の座標
 			if (block_Y != 0)
 			{
 				blockArr[block_num].y = block1.margin_Y + block1.margin * block_Y * 2 + block1.height * block_Y;
@@ -125,13 +128,28 @@
 				blockArr[block_num].y = block1.margin_Y;
 			}
 			
+			//ブロックの配置位置表に記憶させる
+			setBlockPlace();
+			
 			addChild(blockArr[block_num]);
 			
 			trace("block_X :  = " + block_X);
 			trace("block_Y :  = " + block_Y);
-			
+			for (var i = 0; i < blockArr.length; i++ )
+			{
+				trace("block_x : = " + blockArr[i].x);
+				trace("block_y : = " + blockArr[i].y);
+			}
 		}
 		
+		//ブロックの位置の取得
+		private function setBlockPlace():void
+		{
+			for (var i = 0; i < blockArr.length; i++ )
+			{
+				blockPlace[BlockPlaceTable.tabel[blockArr[i].y][blockArr[i].y]] = true;
+			}
+		}
 	}
 	
 }
